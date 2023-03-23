@@ -20,6 +20,7 @@ from flask import abort
 import smtplib
 import ssl
 from email.message import EmailMessage
+import os
 
 
 app = Flask(__name__)
@@ -37,8 +38,9 @@ app.app_context().push()
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-my_email = "pythonabdis@gmail.com"
-password = "wgregjsubbwksstz"
+my_email = os.environ.get("MY_EMAIL")
+password = os.environ.get("EMAIL_PASSWORD")
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -223,7 +225,6 @@ def contact():
     if request.method == 'POST':
         data = request.form
         send_email(data["name"], data["email"], data["phone"], data["message"])
-        print(data)
         return render_template("contact.html", msg_sent=True, current_user=current_user)
     return render_template("contact.html", current_user=current_user, msg_sent=False)
 
