@@ -292,7 +292,7 @@ def send_email(name, email, phone, message):
 @app.route("/delete/<int:post_id>")
 @admin_only
 def delete_post(post_id):
-    post_to_delete = BlogPost.query.get(post_id)
+    post_to_delete = User.query.get(post_id)
     db.session.delete(post_to_delete)
     db.session.commit()
     return redirect(url_for('get_all_posts'))
